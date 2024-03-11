@@ -37,16 +37,16 @@ Type
         Panel1: TPanel;
         MainImgList: TImageList;
         ExitMMButton: TMenuItem;
-    MMImgList: TImageList;
+        MMImgList: TImageList;
         Procedure ViewListsSpButtonClick(Sender: TObject);
         Procedure SearchDataSpButtonClick(Sender: TObject);
         Procedure AddDataSpButtonClick(Sender: TObject);
         Procedure DeleteDataSpButtonClick(Sender: TObject);
         Procedure ChangeDataSpButtonClick(Sender: TObject);
         Procedure ReadinessOrdersSpButtonClick(Sender: TObject);
-    procedure EmployeeInfoSpButtonClick(Sender: TObject);
-    procedure ExitSpButtonClick(Sender: TObject);
-    procedure ExitMMButtonClick(Sender: TObject);
+        Procedure EmployeeInfoSpButtonClick(Sender: TObject);
+        Procedure ExitSpButtonClick(Sender: TObject);
+        Procedure ExitMMButtonClick(Sender: TObject);
     Private
         { Private declarations }
     Public
@@ -66,50 +66,58 @@ Uses
     AddDataUnit,
     DeleteDataUnit,
     ChangeDataUnit,
-    ReadinessOrdersUnit, EmployeeInfoUnit;
+    ReadinessOrdersUnit,
+    EmployeeInfoUnit;
 
 Procedure TMainForm.AddDataSpButtonClick(Sender: TObject);
 Begin
+    Application.CreateForm(TAddDataForm, AddDataForm);
     AddDataForm.ShowModal;
 End;
 
 Procedure TMainForm.ChangeDataSpButtonClick(Sender: TObject);
 Begin
+    Application.CreateForm(TChangeDataForm, ChangeDataForm);
     ChangeDataForm.ShowModal;
 End;
 
 Procedure TMainForm.DeleteDataSpButtonClick(Sender: TObject);
 Begin
+    Application.CreateForm(TDeleteDataForm, DeleteDataForm);
     DeleteDataForm.ShowModal;
 End;
 
-procedure TMainForm.EmployeeInfoSpButtonClick(Sender: TObject);
-begin
+Procedure TMainForm.EmployeeInfoSpButtonClick(Sender: TObject);
+Begin
+    Application.CreateForm(TEmployeeInfoForm, EmployeeInfoForm);
     EmployeeInfoForm.ShowModal;
-end;
+End;
 
-procedure TMainForm.ExitMMButtonClick(Sender: TObject);
-begin
+Procedure TMainForm.ExitMMButtonClick(Sender: TObject);
+Begin
     MainForm.Close;
-end;
+End;
 
-procedure TMainForm.ExitSpButtonClick(Sender: TObject);
-begin
+Procedure TMainForm.ExitSpButtonClick(Sender: TObject);
+Begin
     MainForm.Close;
-end;
+End;
 
 Procedure TMainForm.ReadinessOrdersSpButtonClick(Sender: TObject);
 Begin
+    Application.CreateForm(TReadinessOrdersForm, ReadinessOrdersForm);
     ReadinessOrdersForm.ShowModal;
 End;
 
 Procedure TMainForm.SearchDataSpButtonClick(Sender: TObject);
 Begin
+    Application.CreateForm(TSearchDataForm, SearchDataForm);
     SearchDataForm.ShowModal;
 End;
 
 Procedure TMainForm.ViewListsSpButtonClick(Sender: TObject);
 Begin
+    Application.CreateForm(TViewListForm, ViewListForm);
     ViewListForm.ShowModal;
 End;
 

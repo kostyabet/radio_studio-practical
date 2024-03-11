@@ -25,6 +25,7 @@ Type
         Procedure EmployersButtonClick(Sender: TObject);
         Procedure ItemsButtonClick(Sender: TObject);
         Procedure FormClose(Sender: TObject; Var Action: TCloseAction);
+        Procedure OutputGridKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
     Private
         { Private declarations }
     Public
@@ -39,14 +40,20 @@ Implementation
 {$R *.dfm}
 
 Uses
-    EquipmentReceipts;
+    EquipmentReceipts,
+    DeleteDataUnit;
+
+Procedure ChangeEnabled(EmployersEnabled, ItemsEnabled: Boolean);
+Begin
+    ViewListForm.EmployersButton.AlignWithMargins := EmployersEnabled;
+    ViewListForm.EmployersButton.AllowAllUp := EmployersEnabled;
+    ViewListForm.ItemsButton.AlignWithMargins := ItemsEnabled;
+    ViewListForm.ItemsButton.AllowAllUp := ItemsEnabled;
+End;
 
 Procedure TViewListForm.EmployersButtonClick(Sender: TObject);
 Begin
-    EmployersButton.AlignWithMargins := True;
-    EmployersButton.AllowAllUp := True;
-    ItemsButton.AlignWithMargins := False;
-    ItemsButton.AllowAllUp := False;
+    ChangeEnabled(True, False);
 
     InputEmployersInGreed(OutputGrid);
     OutputGrid.Visible := True;
@@ -55,21 +62,23 @@ End;
 Procedure TViewListForm.FormClose(Sender: TObject; Var Action: TCloseAction);
 Begin
     OutputGrid.Visible := False;
-    EmployersButton.AlignWithMargins := False;
-    EmployersButton.AllowAllUp := False;
-    ItemsButton.AlignWithMargins := False;
-    ItemsButton.AllowAllUp := False;
+    ChangeEnabled(False, False);
 End;
 
 Procedure TViewListForm.ItemsButtonClick(Sender: TObject);
 Begin
-    EmployersButton.AlignWithMargins := False;
-    EmployersButton.AllowAllUp := False;
-    ItemsButton.AlignWithMargins := True;
-    ItemsButton.AllowAllUp := True;
-
+    ChangeEnabled(False, True);
     InputItemsInGreed(OutputGrid);
     OutputGrid.Visible := True;
+End;
+
+Procedure TViewListForm.OutputGridKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+Begin
+    If (Key = VK_DELETE) Then
+    Begin
+        Application.CreateForm(TDeleteDataForm, DeleteDataForm);
+        DeleteDataForm.ShowModal;
+    End;
 End;
 
 End.

@@ -56,7 +56,14 @@ Type
 Procedure EmployeInput(Code: Integer; Name, Post: String; Hours: Integer);
 Procedure ItemInput(Group, Brand: String; Date: TDate; Code: Integer; Status: Boolean);
 Procedure InputEmployersInGreed(StGrid: TStringGrid);
+Procedure DeleteEmployerFromGreed(RecordNumber: Integer);
 Procedure InputItemsInGreed(StGrid: TStringGrid);
+Procedure DeleteItemFromGreed(RecordNumber: Integer);
+Procedure OutputInfoAboutEmploye(RecordNum: Integer; Var CodeLEdit, FIOLEdit, PostLEdit, WorkHourLEdit: TLabeledEdit);
+Procedure OutputInfoAboutItem(RecordNum: Integer; Var DateOfStartPicker: TDateTimePicker;
+    Var ItemGroupLEdit, ItemMarkLEdit, EmployeFixedCodeLEdit: TLabeledEdit; Var ReadyCBox: TComboBox);
+Procedure InputNewInfoAboutEmploye(RecordIndex: Integer; Code: Integer; Name, Post: String; Hours: Integer);
+Procedure InputNewInfoAboutItem(RecordIndex: Integer; Group, Brand: String; Date: TDate; Code: Integer; Status: Boolean);
 
 Var
     ItemsHead: TItemNode;
@@ -142,6 +149,30 @@ Begin
     End;
 End;
 
+Procedure DeleteEmployerFromGreed(RecordNumber: Integer);
+Var
+    EmployersBuffer: TEmployeNode;
+    I: Integer;
+Begin
+    For I := 1 To RecordNumber - 1 Do
+        If EmployersHead.Next <> Nil Then
+            EmployersHead := EmployersHead.Next;
+    If (EmployersHead.Prev <> Nil) Then
+        EmployersHead.Prev.Next := EmployersHead.Next;
+    If (EmployersHead.Next <> Nil) Then
+        EmployersHead.Next.Prev := EmployersHead.Prev;
+    EmployersBuffer := EmployersHead;
+    If (EmployersHead.Prev = Nil) Then
+        EmployersHead := EmployersHead.Next
+    Else
+        While (EmployersHead.Prev <> Nil) Do
+            EmployersHead := EmployersHead.Prev;
+    Dispose(EmployersBuffer);
+    EmployersCounter := EmployersCounter - 1;
+    If (EmployersCounter = 0) Then
+        EmployersHead := Nil;
+End;
+
 Procedure InputItemsInGreed(StGrid: TStringGrid);
 Var
     ItemsBuffer: TItemNode;
@@ -182,6 +213,96 @@ Begin
         StGrid.ColWidths[1] := (StGrid.Width * 23) Div 100;
         StGrid.ColWidths[3] := (StGrid.Width * 24) Div 100;
     End;
+End;
+
+Procedure DeleteItemFromGreed(RecordNumber: Integer);
+Var
+    ItemsBuffer: TItemNode;
+    I: Integer;
+Begin
+    For I := 1 To RecordNumber - 1 Do
+        If ItemsHead.Next <> Nil Then
+            ItemsHead := ItemsHead.Next;
+    If (ItemsHead.Prev <> Nil) Then
+        ItemsHead.Prev.Next := ItemsHead.Next;
+    If (ItemsHead.Next <> Nil) Then
+        ItemsHead.Next.Prev := ItemsHead.Prev;
+    ItemsBuffer := ItemsHead;
+    If (ItemsHead.Prev = Nil) Then
+        ItemsHead := ItemsHead.Next
+    Else
+        While (ItemsHead.Prev <> Nil) Do
+            ItemsHead := ItemsHead.Prev;
+    Dispose(ItemsBuffer);
+    ItemsCounter := ItemsCounter - 1;
+    If (ItemsCounter = 0) Then
+        ItemsHead := Nil;
+End;
+
+Procedure OutputInfoAboutEmploye(RecordNum: Integer; Var CodeLEdit, FIOLEdit, PostLEdit, WorkHourLEdit: TLabeledEdit);
+Var
+    EmployersBuffer: TEmployeNode;
+    I: Integer;
+Begin
+    EmployersBuffer := EmployersHead;
+    For I := 1 To RecordNum - 1 Do
+        If EmployersBuffer.Next <> Nil Then
+            EmployersBuffer := EmployersBuffer.Next;
+    CodeLEdit.Text := IntToStr(EmployersBuffer.Employe.Code);
+    FIOLEdit.Text := EmployersBuffer.Employe.Name;
+    PostLEdit.Text := EmployersBuffer.Employe.Post;
+    WorkHourLEdit.Text := IntToStr(EmployersBuffer.Employe.Hours);
+End;
+
+Procedure OutputInfoAboutItem(RecordNum: Integer; Var DateOfStartPicker: TDateTimePicker;
+    Var ItemGroupLEdit, ItemMarkLEdit, EmployeFixedCodeLEdit: TLabeledEdit; Var ReadyCBox: TComboBox);
+Var
+    ItemsBuffer: TItemNode;
+    I: Integer;
+Begin
+    ItemsBuffer := ItemsHead;
+    For I := 1 To RecordNum - 1 Do
+        If ItemsBuffer.Next <> Nil Then
+            ItemsBuffer := ItemsBuffer.Next;
+    DateOfStartPicker.Date := ItemsBuffer.Item.AcceptanceDate;
+    ItemGroupLEdit.Text := ItemsBuffer.Item.ProdGroup;
+    ItemMarkLEdit.Text := ItemsBuffer.Item.ProdBrand;
+    EmployeFixedCodeLEdit.Text := IntToStr(ItemsBuffer.Item.ExecutorCode);
+    If ItemsBuffer.Item.OrderStatus Then
+        ReadyCBox.ItemIndex := 0
+    Else
+        ReadyCBox.ItemIndex := 1;
+End;
+
+Procedure InputNewInfoAboutEmploye(RecordIndex: Integer; Code: Integer; Name, Post: String; Hours: Integer);
+Var
+    EmployersBuffer: TEmployeNode;
+    I: Integer;
+Begin
+    EmployersBuffer := EmployersHead;
+    For I := 1 To RecordIndex - 1 Do
+        If EmployersBuffer.Next <> Nil Then
+            EmployersBuffer := EmployersBuffer.Next;
+    EmployersBuffer.Employe.Hours := Hours;
+    EmployersBuffer.Employe.Post := Post;
+    EmployersBuffer.Employe.Name := Name;
+    EmployersBuffer.Employe.Code := Code;
+End;
+
+Procedure InputNewInfoAboutItem(RecordIndex: Integer; Group, Brand: String; Date: TDate; Code: Integer; Status: Boolean);
+Var
+    ItemsBuffer: TItemNode;
+    I: Integer;
+Begin
+    ItemsBuffer := ItemsHead;
+    For I := 1 To RecordIndex - 1 Do
+        If ItemsBuffer.Next <> Nil Then
+            ItemsBuffer := ItemsBuffer.Next;
+    ItemsBuffer.Item.ProdGroup := Group;
+    ItemsBuffer.Item.ProdBrand := Brand;
+    ItemsBuffer.Item.AcceptanceDate := Date;
+    ItemsBuffer.Item.ExecutorCode := Code;
+    ItemsBuffer.Item.OrderStatus := Status;
 End;
 
 Initialization

@@ -58,5 +58,6 @@ object ViewListForm: TViewListForm
     ScrollBars = ssVertical
     TabOrder = 1
     Visible = False
+    OnKeyDown = OutputGridKeyDown
   end
 end
