@@ -15,7 +15,8 @@ Uses
     EmployeeInfoUnit In 'EmployeeInfoUnit.pas' {EmployeeInfoForm} ,
     FrontendUnit In 'FrontendUnit.pas',
     BackendUnit In 'BackendUnit.pas',
-    ReInputUnit In 'ReInputUnit.pas' {ReInputDataForm};
+    ReInputUnit In 'ReInputUnit.pas' {ReInputDataForm} ,
+    ViewSearchResUnit In 'ViewSearchResUnit.pas' {ViewSearchResForm};
 
 {$R *.res}
 

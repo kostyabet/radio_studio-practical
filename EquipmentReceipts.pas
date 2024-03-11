@@ -53,6 +53,9 @@ Type
         Next: TEmployeNode;
     End;
 
+    TItemsIndex = (Group, Brand, Date, Executor, Status);
+    TEmployersIndex = (Code, Name, Post, Hours);
+
 Procedure EmployeInput(Code: Integer; Name, Post: String; Hours: Integer);
 Procedure ItemInput(Group, Brand: String; Date: TDate; Code: Integer; Status: Boolean);
 Procedure InputEmployersInGreed(StGrid: TStringGrid);
@@ -64,12 +67,16 @@ Procedure OutputInfoAboutItem(RecordNum: Integer; Var DateOfStartPicker: TDateTi
     Var ItemGroupLEdit, ItemMarkLEdit, EmployeFixedCodeLEdit: TLabeledEdit; Var ReadyCBox: TComboBox);
 Procedure InputNewInfoAboutEmploye(RecordIndex: Integer; Code: Integer; Name, Post: String; Hours: Integer);
 Procedure InputNewInfoAboutItem(RecordIndex: Integer; Group, Brand: String; Date: TDate; Code: Integer; Status: Boolean);
+Procedure SearchAnEmployer(Index: Integer; LabelText: String);
+Procedure SearchItem(Index: Integer);
 
 Var
     ItemsHead: TItemNode;
     ItemsTail: TItemNode;
+    ItemsSearch: TItemNode;
     EmployersHead: TEmployeNode;
     EmployersTail: TEmployeNode;
+    EmployerSearch: TEmployeNode;
     ItemsCounter: Integer = 0;
     EmployersCounter: Integer = 0;
 
@@ -305,11 +312,70 @@ Begin
     ItemsBuffer.Item.OrderStatus := Status;
 End;
 
+Procedure SearchAnEmployer(Index: Integer; LabelText: String);
+Var
+    EmployersBuffer: TEmployeNode;
+    I: Integer;
+Begin
+    EmployersBuffer := EmployersHead;
+    Case Index Of
+        Integer(TEmployersIndex.Code):
+            Begin
+                While (EmployersBuffer <> Nil) Do
+                Begin
+                    If (IntToStr(EmployersBuffer.Employe.Code) = LabelText) Then
+                                    
+                    EmployersBuffer := EmployersBuffer.Next;
+                End;
+            End;
+        Integer(TEmployersIndex.Name):
+            Begin
+
+            End;
+        Integer(TEmployersIndex.Post):
+            Begin
+
+            End;
+        Integer(TEmployersIndex.Hours):
+            Begin
+
+            End;
+    End;
+End;
+
+Procedure SearchItem(Index: Integer);
+Begin
+    Case Index Of
+        Integer(TItemsIndex.Group):
+            Begin
+
+            End;
+        Integer(TItemsIndex.Brand):
+            Begin
+
+            End;
+        Integer(TItemsIndex.Date):
+            Begin
+
+            End;
+        Integer(TItemsIndex.Executor):
+            Begin
+
+            End;
+        Integer(TItemsIndex.Status):
+            Begin
+
+            End;
+    End;
+End;
+
 Initialization
 
 ItemsHead := Nil;
 ItemsTail := Nil;
 EmployersHead := Nil;
 EmployersTail := Nil;
+ItemsSearch := Nil;
+EmployerSearch := Nil;
 
 End.

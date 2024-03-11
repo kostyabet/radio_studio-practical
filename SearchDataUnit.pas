@@ -25,7 +25,7 @@ Type
         AddItemButton: TSpeedButton;
         CriteriLabel: TLabel;
         SearchCriterionCBox: TComboBox;
-        StringLEdit: TLabeledEdit;
+        DataLEdit: TLabeledEdit;
         DataLabel: TLabel;
         DataCBox: TComboBox;
         DataDateTPick: TDateTimePicker;
@@ -37,8 +37,9 @@ Type
         Procedure FormCreate(Sender: TObject);
         Procedure SearchCriterionCBoxChange(Sender: TObject);
         Procedure SearchSpButtonClick(Sender: TObject);
-        Procedure StringLEditChange(Sender: TObject);
+        Procedure DataLEditChange(Sender: TObject);
         Procedure DataCBoxChange(Sender: TObject);
+        Procedure ViewSpButtonClick(Sender: TObject);
     Private
         { Private declarations }
     Public
@@ -60,6 +61,10 @@ Implementation
 
 {$R *.dfm}
 
+Uses
+    ViewSearchResUnit,
+    EquipmentReceipts;
+
 Procedure TSearchDataForm.AddEmployerButtonClick(Sender: TObject);
 Begin
     AddEmployerButton.AlignWithMargins := True;
@@ -71,7 +76,7 @@ Begin
     SearchCriterionCBox.Visible := True;
 
     DataLabel.Visible := False;
-    StringLEdit.Visible := False;
+    DataLEdit.Visible := False;
     DataDateTPick.Visible := False;
     DataCBox.Visible := False;
     SearchSpButton.Visible := False;
@@ -93,7 +98,7 @@ Begin
     SearchCriterionCBox.Visible := True;
 
     DataLabel.Visible := False;
-    StringLEdit.Visible := False;
+    DataLEdit.Visible := False;
     DataDateTPick.Visible := False;
     DataCBox.Visible := False;
     SearchSpButton.Visible := False;
@@ -119,7 +124,7 @@ Begin
     CriteriLabel.Visible := False;
     SearchCriterionCBox.Visible := False;
 
-    StringLEdit.Visible := False;
+    DataLEdit.Visible := False;
     DataDateTPick.Visible := False;
     DataCBox.Visible := False;
     SearchSpButton.Visible := False;
@@ -129,14 +134,14 @@ End;
 
 Procedure TSearchDataForm.FormCreate(Sender: TObject);
 Begin
-    StringLEdit.EditLabel.Caption := '';
+    DataLEdit.EditLabel.Caption := '';
 End;
 
 Procedure TSearchDataForm.SearchCriterionCBoxChange(Sender: TObject);
 Begin
-    StringLEdit.Text := '';
+    DataLEdit.Text := '';
     DataCBox.ItemIndex := -1;
-    StringLEdit.Visible := False;
+    DataLEdit.Visible := False;
     DataDateTPick.Visible := False;
     DataCBox.Visible := False;
     DataLabel.Visible := True;
@@ -144,19 +149,19 @@ Begin
     SearchSpButton.Enabled := False;
     Case GridChoose Of
         Employe:
-            StringLEdit.Visible := True;
+            DataLEdit.Visible := True;
         Item:
             Begin
                 Case SearchCriterionCBox.ItemIndex Of
-                    0, 1, 3:
-                        StringLEdit.Visible := True;
-                    2:
+                    Integer(TItemsIndex.Date):
                         Begin
                             DataDateTPick.Visible := True;
                             SearchSpButton.Enabled := True;
                         End;
-                    4:
+                    Integer(TItemsIndex.Status):
                         DataCBox.Visible := True;
+                Else
+                    DataLEdit.Visible := True;
                 End;
             End;
     End;
@@ -164,12 +169,24 @@ End;
 
 Procedure TSearchDataForm.SearchSpButtonClick(Sender: TObject);
 Begin
+    Case GridChoose Of
+        Employe:
+            SearchAnEmployer(DataCBox.ItemIndex, DataLEdit.Text);
+        Item:
+            SearchItem(DataCBox.ItemIndex);
+    End;
     ViewSpButton.Visible := True;
 End;
 
-Procedure TSearchDataForm.StringLEditChange(Sender: TObject);
+Procedure TSearchDataForm.DataLEditChange(Sender: TObject);
 Begin
-    SearchSpButton.Enabled := Trim(StringLEdit.Text) <> ''
+    SearchSpButton.Enabled := Trim(DataLEdit.Text) <> ''
+End;
+
+Procedure TSearchDataForm.ViewSpButtonClick(Sender: TObject);
+Begin
+    Application.CreateForm(TViewSearchResForm, ViewSearchResForm);
+    ViewSearchResForm.ShowModal;
 End;
 
 End.

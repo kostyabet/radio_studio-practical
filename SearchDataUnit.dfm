@@ -49,6 +49,7 @@ object SearchDataForm: TSearchDataForm
     Height = 34
     Caption = #1055#1088#1086#1089#1084#1086#1090#1088' '#1085#1072#1081#1076#1077#1085#1085#1099#1093' '#1079#1072#1087#1080#1089#1077#1081
     Visible = False
+    OnClick = ViewSpButtonClick
   end
   object SwitchPanel: TPanel
     Left = 0
@@ -104,22 +105,22 @@ object SearchDataForm: TSearchDataForm
     Visible = False
     OnChange = SearchCriterionCBoxChange
   end
-  object StringLEdit: TLabeledEdit
+  object DataLEdit: TLabeledEdit
     Left = 120
     Top = 90
     Width = 201
     Height = 23
     Hint = #1042#1072#1096#1080' '#1076#1072#1085#1085#1099#1077
-    EditLabel.Width = 57
+    EditLabel.Width = 50
     EditLabel.Height = 15
-    EditLabel.Caption = 'StringLEdit'
+    EditLabel.Caption = 'DataLEdit'
     ParentShowHint = False
     ShowHint = True
     TabOrder = 2
     Text = ''
     TextHint = #1044#1072#1085#1085#1099#1077
     Visible = False
-    OnChange = StringLEditChange
+    OnChange = DataLEditChange
   end
   object DataCBox: TComboBox
     Left = 120
