@@ -16,7 +16,7 @@ Uses
     Vcl.ExtCtrls,
     Vcl.StdCtrls,
     Vcl.ComCtrls,
-    Vcl.Mask;
+    Vcl.Mask, Vcl.Grids;
 
 Type
     TSearchDataForm = Class(TForm)
@@ -30,7 +30,7 @@ Type
         DataCBox: TComboBox;
         DataDateTPick: TDateTimePicker;
         SearchSpButton: TSpeedButton;
-        ViewSpButton: TSpeedButton;
+    OutputGrid: TStringGrid;
         Procedure AddEmployerButtonClick(Sender: TObject);
         Procedure AddItemButtonClick(Sender: TObject);
         Procedure FormClose(Sender: TObject; Var Action: TCloseAction);
@@ -39,7 +39,6 @@ Type
         Procedure SearchSpButtonClick(Sender: TObject);
         Procedure DataLEditChange(Sender: TObject);
         Procedure DataCBoxChange(Sender: TObject);
-        Procedure ViewSpButtonClick(Sender: TObject);
     Private
         { Private declarations }
     Public
@@ -129,7 +128,7 @@ Begin
     DataCBox.Visible := False;
     SearchSpButton.Visible := False;
 
-    ViewSpButton.Visible := False;
+    OutputGrid.Visible := False;
 End;
 
 Procedure TSearchDataForm.FormCreate(Sender: TObject);
@@ -171,22 +170,16 @@ Procedure TSearchDataForm.SearchSpButtonClick(Sender: TObject);
 Begin
     Case GridChoose Of
         Employe:
-            SearchAnEmployer(DataCBox.ItemIndex, DataLEdit.Text);
+            SearchAnEmployer(SearchCriterionCBox.ItemIndex, DataLEdit.Text, OutputGrid);
         Item:
-            SearchItem(DataCBox.ItemIndex);
+            SearchItem(SearchCriterionCBox.ItemIndex, DataLEdit.Text, DataDateTPick.Date, DataCBox.ItemIndex = 0, OutputGrid);
     End;
-    ViewSpButton.Visible := True;
+    OutputGrid.Visible := True;
 End;
 
 Procedure TSearchDataForm.DataLEditChange(Sender: TObject);
 Begin
     SearchSpButton.Enabled := Trim(DataLEdit.Text) <> ''
-End;
-
-Procedure TSearchDataForm.ViewSpButtonClick(Sender: TObject);
-Begin
-    Application.CreateForm(TViewSearchResForm, ViewSearchResForm);
-    ViewSearchResForm.ShowModal;
 End;
 
 End.

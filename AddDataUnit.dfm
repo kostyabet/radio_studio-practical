@@ -104,7 +104,7 @@ object AddDataForm: TAddDataForm
     Height = 41
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 627
+    ExplicitWidth = 632
     object AddEmployerButton: TSpeedButton
       Left = 1
       Top = 1
@@ -146,6 +146,7 @@ object AddDataForm: TAddDataForm
     Time = 0.995833587963716100
     TabOrder = 1
     Visible = False
+    OnChange = DateOfStartPickerChange
   end
   object ReadyCBox: TComboBox
     Left = 193
@@ -161,6 +162,7 @@ object AddDataForm: TAddDataForm
     Text = #1053#1077' '#1074#1099#1087#1086#1083#1085#1077#1085
     TextHint = #1043#1086#1090#1086#1074#1085#1086#1089#1090#1100' '#1079#1072#1082#1072#1079#1072
     Visible = False
+    OnChange = ReadyCBoxChange
     Items.Strings = (
       #1042#1099#1087#1086#1083#1085#1077#1085
       #1053#1077' '#1074#1099#1087#1086#1083#1085#1077#1085)

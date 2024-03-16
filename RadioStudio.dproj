@@ -140,10 +140,6 @@
             <Form>ReInputDataForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="ViewSearchResUnit.pas">
-            <Form>ViewSearchResForm</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

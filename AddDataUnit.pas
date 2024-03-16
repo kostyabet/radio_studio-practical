@@ -56,6 +56,8 @@ Type
         Procedure ItemGroupLEditChange(Sender: TObject);
         Procedure ItemMarkLEditChange(Sender: TObject);
         Procedure AddButtonClick(Sender: TObject);
+        Procedure DateOfStartPickerChange(Sender: TObject);
+        Procedure ReadyCBoxChange(Sender: TObject);
     Private
         { Private declarations }
     Public
@@ -92,6 +94,7 @@ Var
     TempStr: String;
     IsCorrect: Boolean;
 Begin
+    IsCorrect := True;
     Try
         TempStr := Group.Text;
         TempStr := Trim(TempStr);
@@ -225,6 +228,11 @@ Begin
     CheckChanges();
 End;
 
+Procedure TAddDataForm.DateOfStartPickerChange(Sender: TObject);
+Begin
+    CheckChanges();
+End;
+
 Procedure TAddDataForm.EmployeCodeLEditChange(Sender: TObject);
 Begin
     CheckChanges();
@@ -279,6 +287,11 @@ Begin
 End;
 
 Procedure TAddDataForm.ItemMarkLEditChange(Sender: TObject);
+Begin
+    CheckChanges();
+End;
+
+Procedure TAddDataForm.ReadyCBoxChange(Sender: TObject);
 Begin
     CheckChanges();
 End;

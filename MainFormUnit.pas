@@ -34,7 +34,7 @@ Type
         ExitSpButton: TSpeedButton;
         ReadinessOrdersSpButton: TSpeedButton;
         EmployeeInfoSpButton: TSpeedButton;
-        Panel1: TPanel;
+    MainPanel: TPanel;
         MainImgList: TImageList;
         ExitMMButton: TMenuItem;
         MMImgList: TImageList;

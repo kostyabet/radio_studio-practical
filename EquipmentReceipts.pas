@@ -67,16 +67,14 @@ Procedure OutputInfoAboutItem(RecordNum: Integer; Var DateOfStartPicker: TDateTi
     Var ItemGroupLEdit, ItemMarkLEdit, EmployeFixedCodeLEdit: TLabeledEdit; Var ReadyCBox: TComboBox);
 Procedure InputNewInfoAboutEmploye(RecordIndex: Integer; Code: Integer; Name, Post: String; Hours: Integer);
 Procedure InputNewInfoAboutItem(RecordIndex: Integer; Group, Brand: String; Date: TDate; Code: Integer; Status: Boolean);
-Procedure SearchAnEmployer(Index: Integer; LabelText: String);
-Procedure SearchItem(Index: Integer);
+Procedure SearchAnEmployer(Index: Integer; LabelText: String; Var OutputGrid: TStringGrid);
+Procedure SearchItem(Index: Integer; LabelText: String; Date: TDate; Status: Boolean; Var OutputGrid: TStringGrid);
 
 Var
     ItemsHead: TItemNode;
     ItemsTail: TItemNode;
-    ItemsSearch: TItemNode;
     EmployersHead: TEmployeNode;
     EmployersTail: TEmployeNode;
-    EmployerSearch: TEmployeNode;
     ItemsCounter: Integer = 0;
     EmployersCounter: Integer = 0;
 
@@ -312,60 +310,204 @@ Begin
     ItemsBuffer.Item.OrderStatus := Status;
 End;
 
-Procedure SearchAnEmployer(Index: Integer; LabelText: String);
+Procedure SearchAnEmployer(Index: Integer; LabelText: String; Var OutputGrid: TStringGrid);
 Var
     EmployersBuffer: TEmployeNode;
-    I: Integer;
 Begin
     EmployersBuffer := EmployersHead;
+    OutputGrid.ColCount := 4;
+    OutputGrid.RowCount := 1;
+    OutputGrid.FixedCols := 0;
+    OutputGrid.FixedRows := 0;
+    OutputGrid.Cells[0, 0] := 'Код работника';
+    OutputGrid.Cells[1, 0] := 'ФИО работника';
+    OutputGrid.Cells[2, 0] := 'Должность';
+    OutputGrid.Cells[3, 0] := 'Кол-во раб. часов';
     Case Index Of
         Integer(TEmployersIndex.Code):
+            While (EmployersBuffer <> Nil) Do
             Begin
-                While (EmployersBuffer <> Nil) Do
+                If (IntToStr(EmployersBuffer.Employe.Code) = LabelText) Then
                 Begin
-                    If (IntToStr(EmployersBuffer.Employe.Code) = LabelText) Then
-                                    
-                    EmployersBuffer := EmployersBuffer.Next;
+                    OutputGrid.RowCount := OutputGrid.RowCount + 1;
+                    OutputGrid.FixedRows := 1;
+                    OutputGrid.Cells[0, OutputGrid.RowCount - 1] := IntToStr(EmployersBuffer.Employe.Code);
+                    OutputGrid.Cells[1, OutputGrid.RowCount - 1] := EmployersBuffer.Employe.Name;
+                    OutputGrid.Cells[2, OutputGrid.RowCount - 1] := EmployersBuffer.Employe.Post;
+                    OutputGrid.Cells[3, OutputGrid.RowCount - 1] := IntToStr(EmployersBuffer.Employe.Hours);
                 End;
+                EmployersBuffer := EmployersBuffer.Next;
             End;
         Integer(TEmployersIndex.Name):
+            While (EmployersBuffer <> Nil) Do
             Begin
-
+                If (EmployersBuffer.Employe.Name = LabelText) Then
+                Begin
+                    OutputGrid.RowCount := OutputGrid.RowCount + 1;
+                    OutputGrid.FixedRows := 1;
+                    OutputGrid.Cells[0, OutputGrid.RowCount - 1] := IntToStr(EmployersBuffer.Employe.Code);
+                    OutputGrid.Cells[1, OutputGrid.RowCount - 1] := EmployersBuffer.Employe.Name;
+                    OutputGrid.Cells[2, OutputGrid.RowCount - 1] := EmployersBuffer.Employe.Post;
+                    OutputGrid.Cells[3, OutputGrid.RowCount - 1] := IntToStr(EmployersBuffer.Employe.Hours);
+                End;
+                EmployersBuffer := EmployersBuffer.Next;
             End;
         Integer(TEmployersIndex.Post):
+            While (EmployersBuffer <> Nil) Do
             Begin
-
+                If (EmployersBuffer.Employe.Post = LabelText) Then
+                Begin
+                    OutputGrid.RowCount := OutputGrid.RowCount + 1;
+                    OutputGrid.FixedRows := 1;
+                    OutputGrid.Cells[0, OutputGrid.RowCount - 1] := IntToStr(EmployersBuffer.Employe.Code);
+                    OutputGrid.Cells[1, OutputGrid.RowCount - 1] := EmployersBuffer.Employe.Name;
+                    OutputGrid.Cells[2, OutputGrid.RowCount - 1] := EmployersBuffer.Employe.Post;
+                    OutputGrid.Cells[3, OutputGrid.RowCount - 1] := IntToStr(EmployersBuffer.Employe.Hours);
+                End;
+                EmployersBuffer := EmployersBuffer.Next;
             End;
         Integer(TEmployersIndex.Hours):
+            While (EmployersBuffer <> Nil) Do
             Begin
-
+                If (IntToStr(EmployersBuffer.Employe.Hours) = LabelText) Then
+                Begin
+                    OutputGrid.RowCount := OutputGrid.RowCount + 1;
+                    OutputGrid.FixedRows := 1;
+                    OutputGrid.Cells[0, OutputGrid.RowCount - 1] := IntToStr(EmployersBuffer.Employe.Code);
+                    OutputGrid.Cells[1, OutputGrid.RowCount - 1] := EmployersBuffer.Employe.Name;
+                    OutputGrid.Cells[2, OutputGrid.RowCount - 1] := EmployersBuffer.Employe.Post;
+                    OutputGrid.Cells[3, OutputGrid.RowCount - 1] := IntToStr(EmployersBuffer.Employe.Hours);
+                End;
+                EmployersBuffer := EmployersBuffer.Next;
             End;
+    End;
+    OutputGrid.ColWidths[0] := (OutputGrid.Width * 15) Div 100;
+    OutputGrid.ColWidths[1] := (OutputGrid.Width * 33) Div 100;
+    OutputGrid.ColWidths[2] := (OutputGrid.Width * 32) Div 100;
+    OutputGrid.ColWidths[3] := (OutputGrid.Width * 19) Div 100;
+    If (OutputGrid.RowCount > 11) Then
+    Begin
+        OutputGrid.ColWidths[1] := (OutputGrid.Width * 32) Div 100;
+        OutputGrid.ColWidths[2] := (OutputGrid.Width * 32) Div 100;
     End;
 End;
 
-Procedure SearchItem(Index: Integer);
+Procedure SearchItem(Index: Integer; LabelText: String; Date: TDate; Status: Boolean; Var OutputGrid: TStringGrid);
+Var
+    ItemsBuffer: TItemNode;
 Begin
+    ItemsBuffer := ItemsHead;
+    OutputGrid.ColCount := 5;
+    OutputGrid.RowCount := 1;
+    OutputGrid.FixedCols := 0;
+    OutputGrid.FixedRows := 0;
+    OutputGrid.Cells[0, 0] := 'Изделие';
+    OutputGrid.Cells[1, 0] := 'Бренд';
+    OutputGrid.Cells[2, 0] := 'Дата';
+    OutputGrid.Cells[3, 0] := 'Код рабочего';
+    OutputGrid.Cells[4, 0] := 'Статус';
     Case Index Of
         Integer(TItemsIndex.Group):
+            While (ItemsBuffer <> Nil) Do
             Begin
-
+                If (ItemsBuffer.Item.ProdGroup = LabelText) Then
+                Begin
+                    OutputGrid.RowCount := OutputGrid.RowCount + 1;
+                    OutputGrid.FixedRows := 1;
+                    OutputGrid.Cells[0, OutputGrid.RowCount - 1] := ItemsBuffer.Item.ProdGroup;
+                    OutputGrid.Cells[1, OutputGrid.RowCount - 1] := ItemsBuffer.Item.ProdBrand;
+                    OutputGrid.Cells[2, OutputGrid.RowCount - 1] := DateToStr(ItemsBuffer.Item.AcceptanceDate);
+                    OutputGrid.Cells[3, OutputGrid.RowCount - 1] := IntToStr(ItemsBuffer.Item.ExecutorCode);
+                    If ItemsBuffer.Item.OrderStatus Then
+                        OutputGrid.Cells[4, OutputGrid.RowCount - 1] := 'Выполнен'
+                    Else
+                        OutputGrid.Cells[4, OutputGrid.RowCount - 1] := 'Не выполнен';
+                End;
+                ItemsBuffer := ItemsBuffer.Next;
             End;
         Integer(TItemsIndex.Brand):
+            While (ItemsBuffer <> Nil) Do
             Begin
-
+                If (ItemsBuffer.Item.ProdBrand = LabelText) Then
+                Begin
+                    OutputGrid.RowCount := OutputGrid.RowCount + 1;
+                    OutputGrid.FixedRows := 1;
+                    OutputGrid.Cells[0, OutputGrid.RowCount - 1] := ItemsBuffer.Item.ProdGroup;
+                    OutputGrid.Cells[1, OutputGrid.RowCount - 1] := ItemsBuffer.Item.ProdBrand;
+                    OutputGrid.Cells[2, OutputGrid.RowCount - 1] := DateToStr(ItemsBuffer.Item.AcceptanceDate);
+                    OutputGrid.Cells[3, OutputGrid.RowCount - 1] := IntToStr(ItemsBuffer.Item.ExecutorCode);
+                    If ItemsBuffer.Item.OrderStatus Then
+                        OutputGrid.Cells[4, OutputGrid.RowCount - 1] := 'Выполнен'
+                    Else
+                        OutputGrid.Cells[4, OutputGrid.RowCount - 1] := 'Не выполнен';
+                End;
+                ItemsBuffer := ItemsBuffer.Next;
             End;
         Integer(TItemsIndex.Date):
+            While (ItemsBuffer <> Nil) Do
             Begin
-
+                If (ItemsBuffer.Item.AcceptanceDate = Date) Then
+                Begin
+                    OutputGrid.RowCount := OutputGrid.RowCount + 1;
+                    OutputGrid.FixedRows := 1;
+                    OutputGrid.Cells[0, OutputGrid.RowCount - 1] := ItemsBuffer.Item.ProdGroup;
+                    OutputGrid.Cells[1, OutputGrid.RowCount - 1] := ItemsBuffer.Item.ProdBrand;
+                    OutputGrid.Cells[2, OutputGrid.RowCount - 1] := DateToStr(ItemsBuffer.Item.AcceptanceDate);
+                    OutputGrid.Cells[3, OutputGrid.RowCount - 1] := IntToStr(ItemsBuffer.Item.ExecutorCode);
+                    If ItemsBuffer.Item.OrderStatus Then
+                        OutputGrid.Cells[4, OutputGrid.RowCount - 1] := 'Выполнен'
+                    Else
+                        OutputGrid.Cells[4, OutputGrid.RowCount - 1] := 'Не выполнен';
+                End;
+                ItemsBuffer := ItemsBuffer.Next;
             End;
         Integer(TItemsIndex.Executor):
+            While (ItemsBuffer <> Nil) Do
             Begin
-
+                If (IntToStr(ItemsBuffer.Item.ExecutorCode) = LabelText) Then
+                Begin
+                    OutputGrid.RowCount := OutputGrid.RowCount + 1;
+                    OutputGrid.FixedRows := 1;
+                    OutputGrid.Cells[0, OutputGrid.RowCount - 1] := ItemsBuffer.Item.ProdGroup;
+                    OutputGrid.Cells[1, OutputGrid.RowCount - 1] := ItemsBuffer.Item.ProdBrand;
+                    OutputGrid.Cells[2, OutputGrid.RowCount - 1] := DateToStr(ItemsBuffer.Item.AcceptanceDate);
+                    OutputGrid.Cells[3, OutputGrid.RowCount - 1] := IntToStr(ItemsBuffer.Item.ExecutorCode);
+                    If ItemsBuffer.Item.OrderStatus Then
+                        OutputGrid.Cells[4, OutputGrid.RowCount - 1] := 'Выполнен'
+                    Else
+                        OutputGrid.Cells[4, OutputGrid.RowCount - 1] := 'Не выполнен';
+                End;
+                ItemsBuffer := ItemsBuffer.Next;
             End;
         Integer(TItemsIndex.Status):
+            While (ItemsBuffer <> Nil) Do
             Begin
-
+                If (ItemsBuffer.Item.OrderStatus = Status) Then
+                Begin
+                    OutputGrid.RowCount := OutputGrid.RowCount + 1;
+                    OutputGrid.FixedRows := 1;
+                    OutputGrid.Cells[0, OutputGrid.RowCount - 1] := ItemsBuffer.Item.ProdGroup;
+                    OutputGrid.Cells[1, OutputGrid.RowCount - 1] := ItemsBuffer.Item.ProdBrand;
+                    OutputGrid.Cells[2, OutputGrid.RowCount - 1] := DateToStr(ItemsBuffer.Item.AcceptanceDate);
+                    OutputGrid.Cells[3, OutputGrid.RowCount - 1] := IntToStr(ItemsBuffer.Item.ExecutorCode);
+                    If ItemsBuffer.Item.OrderStatus Then
+                        OutputGrid.Cells[4, OutputGrid.RowCount - 1] := 'Выполнен'
+                    Else
+                        OutputGrid.Cells[4, OutputGrid.RowCount - 1] := 'Не выполнен';
+                End;
+                ItemsBuffer := ItemsBuffer.Next;
             End;
+    End;
+    OutputGrid.ColWidths[0] := (OutputGrid.Width * 25) Div 100;
+    OutputGrid.ColWidths[1] := (OutputGrid.Width * 25) Div 100;
+    OutputGrid.ColWidths[2] := (OutputGrid.Width * 11) Div 100;
+    OutputGrid.ColWidths[3] := (OutputGrid.Width * 24) Div 100;
+    OutputGrid.ColWidths[4] := (OutputGrid.Width * 14) Div 100;
+    If (ItemsCounter + 1 > 11) Then
+    Begin
+        OutputGrid.ColWidths[0] := (OutputGrid.Width * 24) Div 100;
+        OutputGrid.ColWidths[1] := (OutputGrid.Width * 23) Div 100;
+        OutputGrid.ColWidths[3] := (OutputGrid.Width * 24) Div 100;
     End;
 End;
 
@@ -375,7 +517,5 @@ ItemsHead := Nil;
 ItemsTail := Nil;
 EmployersHead := Nil;
 EmployersTail := Nil;
-ItemsSearch := Nil;
-EmployerSearch := Nil;
 
 End.

@@ -15,7 +15,7 @@ object MainForm: TMainForm
   Menu = MainMenu
   Position = poScreenCenter
   TextHeight = 15
-  object Panel1: TPanel
+  object MainPanel: TPanel
     Left = 0
     Top = 0
     Width = 257
