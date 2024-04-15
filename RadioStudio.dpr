@@ -13,8 +13,6 @@ uses
   ChangeDataUnit in 'ChangeDataUnit.pas' {ChangeDataForm},
   ReadinessOrdersUnit in 'ReadinessOrdersUnit.pas' {ReadinessOrdersForm},
   EmployeeInfoUnit in 'EmployeeInfoUnit.pas' {EmployeeInfoForm},
-  FrontendUnit in 'FrontendUnit.pas',
-  BackendUnit in 'BackendUnit.pas',
   ReInputUnit in 'ReInputUnit.pas' {ReInputDataForm};
 
 {$R *.res}

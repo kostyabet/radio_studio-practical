@@ -55,7 +55,7 @@ Procedure TViewListForm.EmployersButtonClick(Sender: TObject);
 Begin
     ChangeEnabled(True, False);
 
-    InputEmployersInGreed(OutputGrid);
+    InputEmployersInGreed(OutputGrid, EmployersHead);
     OutputGrid.Visible := True;
 End;
 
@@ -68,7 +68,7 @@ End;
 Procedure TViewListForm.ItemsButtonClick(Sender: TObject);
 Begin
     ChangeEnabled(False, True);
-    InputItemsInGreed(OutputGrid);
+    InputItemsInGreed(OutputGrid, ItemsHead);
     OutputGrid.Visible := True;
 End;
 

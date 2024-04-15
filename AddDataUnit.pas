@@ -58,6 +58,9 @@ Type
         Procedure AddButtonClick(Sender: TObject);
         Procedure DateOfStartPickerChange(Sender: TObject);
         Procedure ReadyCBoxChange(Sender: TObject);
+        Procedure EmployeCodeLEditKeyPress(Sender: TObject; Var Key: Char);
+        Procedure EmployeFixedCodeLEditKeyPress(Sender: TObject; Var Key: Char);
+        Procedure EmployeWorkHourLEditKeyPress(Sender: TObject; Var Key: Char);
     Private
         { Private declarations }
     Public
@@ -76,7 +79,8 @@ Implementation
 {$R *.dfm}
 
 Uses
-    EquipmentReceipts;
+    EquipmentReceipts,
+    MainFormUnit;
 
 Procedure ClearEdits();
 Begin
@@ -108,6 +112,7 @@ Begin
         StrToInt(TempStr);
         TempStr := Trim(TempStr);
         IsCorrect := IsCorrect And (TempStr <> '');
+        IsCorrect := IsCorrect And IsEmployerExist(TempStr);
 
         IsCorrect := IsCorrect And Not(Ready.ItemIndex = -1);
     Except
@@ -132,6 +137,7 @@ Begin
         TempStr := Trim(TempStr);
         StrToInt(TempStr);
         IsCorrect := TempStr <> '';
+        IsCorrect := IsCorrect And Not IsEmployerExist(TempStr);
 
         TempStr := FIOEdit.Text;
         TempStr := Trim(TempStr);
@@ -200,7 +206,7 @@ Procedure TAddDataForm.AddButtonClick(Sender: TObject);
 Begin
     Case VarientOfInput Of
         Employe:
-            EmployeInput(StrToInt(EmployeCodeLEdit.Text), ShortString(EmployeFIOLEdit.Text), ShortString(EmployePostLEdit.Text),
+            EmployeInput(StrToInt(EmployeCodeLEdit.Text), (EmployeFIOLEdit.Text), (EmployePostLEdit.Text),
                 StrToInt(EmployeWorkHourLEdit.Text));
         Item:
             ItemInput(ItemGroupLEdit.Text, ItemMarkLEdit.Text, DateOfStartPicker.Date, StrToInt(EmployeFixedCodeLEdit.Text),
@@ -208,6 +214,8 @@ Begin
     End;
     ClearEdits();
     CheckChanges();
+    IsDataExist := True;
+    MainForm.SaveLists.Enabled := True;
 End;
 
 Procedure TAddDataForm.AddEmployerButtonClick(Sender: TObject);
@@ -238,6 +246,14 @@ Begin
     CheckChanges();
 End;
 
+Procedure TAddDataForm.EmployeCodeLEditKeyPress(Sender: TObject; Var Key: Char);
+Const
+    GOOD_VALUE = ['0' .. '9', #13, #08];
+Begin
+    If Not CharInSet(Key, GOOD_VALUE) Then
+        Key := #0;
+End;
+
 Procedure TAddDataForm.EmployeFIOLEditChange(Sender: TObject);
 Begin
     CheckChanges();
@@ -248,6 +264,14 @@ Begin
     CheckChanges();
 End;
 
+Procedure TAddDataForm.EmployeFixedCodeLEditKeyPress(Sender: TObject; Var Key: Char);
+Const
+    GOOD_VALUE = ['0' .. '9', #13, #08];
+Begin
+    If Not CharInSet(Key, GOOD_VALUE) Then
+        Key := #0;
+End;
+
 Procedure TAddDataForm.EmployePostLEditChange(Sender: TObject);
 Begin
     CheckChanges();
@@ -256,6 +280,14 @@ End;
 Procedure TAddDataForm.EmployeWorkHourLEditChange(Sender: TObject);
 Begin
     CheckChanges();
+End;
+
+Procedure TAddDataForm.EmployeWorkHourLEditKeyPress(Sender: TObject; Var Key: Char);
+Const
+    GOOD_VALUE = ['0' .. '9', #13, #08];
+Begin
+    If Not CharInSet(Key, GOOD_VALUE) Then
+        Key := #0;
 End;
 
 Procedure TAddDataForm.FormClose(Sender: TObject; Var Action: TCloseAction);
@@ -274,6 +306,7 @@ Begin
     EmployePostLEdit.EditLabel.Caption := '';
     EmployeCodeLEdit.EditLabel.Caption := '';
     EmployeFIOLEdit.EditLabel.Caption := '';
+    DateOfStartPicker.MinDate := Date;
 End;
 
 Procedure TAddDataForm.ItemGroupLabeledEditChange(Sender: TObject);

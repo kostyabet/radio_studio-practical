@@ -49,7 +49,8 @@ Implementation
 
 Uses
     EquipmentReceipts,
-    DeleteDataUnit, ReInputUnit;
+    DeleteDataUnit,
+    ReInputUnit;
 
 Procedure ChangeEnabled(EmployersEnabled, ItemsEnabled: Boolean);
 Begin
@@ -69,7 +70,7 @@ Procedure TChangeDataForm.EmployersButtonClick(Sender: TObject);
 Begin
     GridChoosen := Employe;
     ChangeEnabled(True, False);
-    InputEmployersInGreed(OutputGrid);
+    InputEmployersInGreed(OutputGrid, EmployersHead);
     If (OutputGrid.RowCount > 1) Then
         ChangeButton.Enabled := True
     Else
@@ -88,7 +89,7 @@ Procedure TChangeDataForm.ItemsButtonClick(Sender: TObject);
 Begin
     GridChoosen := Item;
     ChangeEnabled(False, True);
-    InputItemsInGreed(OutputGrid);
+    InputItemsInGreed(OutputGrid, ItemsHead);
     If (OutputGrid.RowCount > 1) Then
         ChangeButton.Enabled := True
     Else

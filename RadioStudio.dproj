@@ -134,8 +134,6 @@
             <Form>EmployeeInfoForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="FrontendUnit.pas"/>
-        <DCCReference Include="BackendUnit.pas"/>
         <DCCReference Include="ReInputUnit.pas">
             <Form>ReInputDataForm</Form>
             <FormType>dfm</FormType>

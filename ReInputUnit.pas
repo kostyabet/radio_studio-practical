@@ -1,4 +1,4 @@
-Unit ReInputUnit;
+﻿Unit ReInputUnit;
 
 Interface
 
@@ -42,6 +42,9 @@ Type
         Procedure FormCreate(Sender: TObject);
         Procedure FormClose(Sender: TObject; Var Action: TCloseAction);
         Procedure ApplySpButtonClick(Sender: TObject);
+        Procedure EmployeCodeLEditKeyPress(Sender: TObject; Var Key: Char);
+        Procedure EmployeFixedCodeLEditKeyPress(Sender: TObject; Var Key: Char);
+        Procedure EmployeWorkHourLEditKeyPress(Sender: TObject; Var Key: Char);
     Private
         { Private declarations }
     Public
@@ -57,7 +60,8 @@ Implementation
 
 Uses
     ChangeDataUnit,
-    EquipmentReceipts;
+    EquipmentReceipts,
+    MainFormUnit;
 
 Procedure VisibilityDistributor(AddEmployerStatus, AddItemStatus: Boolean);
 Begin
@@ -87,18 +91,61 @@ Begin
     Case GridChoosen Of
         Employe:
             Begin
-                InputNewInfoAboutEmploye(ChangeDataForm.OutputGrid.Row, StrToInt(EmployeCodeLEdit.Text), ShortString(EmployeFIOLEdit.Text),
-                    ShortString(EmployePostLEdit.Text), StrToInt(EmployeWorkHourLEdit.Text));
-                ChangeDataForm.EmployersButtonClick(Sender);
+                If IsEmployerExist(EmployeCodeLEdit.Text) And
+                    (ChangeDataForm.OutputGrid.Cells[0, ChangeDataForm.OutputGrid.Row] <> EmployeCodeLEdit.Text) Then
+                    MainForm.ErrorExit('Сотрудник с таким кодом уже существует', 'Ошибка')
+                Else
+                Begin
+                    InputNewInfoAboutEmploye(ChangeDataForm.OutputGrid.Row, StrToInt(EmployeCodeLEdit.Text), String(EmployeFIOLEdit.Text),
+                        String(EmployePostLEdit.Text), StrToInt(EmployeWorkHourLEdit.Text));
+                    ChangeDataForm.EmployersButtonClick(Sender);
+                    ReInputDataForm.Close;
+
+                    IsDataExist := True;
+                    MainForm.SaveLists.Enabled := True;
+                End;
             End;
         Item:
             Begin
-                InputNewInfoAboutItem(ChangeDataForm.OutputGrid.Row, ItemGroupLEdit.Text, ItemMarkLEdit.Text, DateOfStartPicker.Date,
-                    StrToInt(EmployeFixedCodeLEdit.Text), ReadyCBox.ItemIndex = 0);
-                ChangeDataForm.ItemsButtonClick(Sender);
+                If Not IsEmployerExist(EmployeFixedCodeLEdit.Text) And
+                    (ChangeDataForm.OutputGrid.Cells[0, ChangeDataForm.OutputGrid.Row] <> EmployeFixedCodeLEdit.Text) Then
+                    MainForm.ErrorExit('Сотрудник с таким кодом не существует', 'Ошибка')
+                Else
+                Begin
+                    InputNewInfoAboutItem(ChangeDataForm.OutputGrid.Row, ItemGroupLEdit.Text, ItemMarkLEdit.Text, DateOfStartPicker.Date,
+                        StrToInt(EmployeFixedCodeLEdit.Text), ReadyCBox.ItemIndex = 0);
+                    ChangeDataForm.ItemsButtonClick(Sender);
+                    ReInputDataForm.Close;
+
+                    IsDataExist := True;
+                    MainForm.SaveLists.Enabled := True;
+                End;
             End;
     End;
-    ReInputDataForm.Close;
+End;
+
+Procedure TReInputDataForm.EmployeCodeLEditKeyPress(Sender: TObject; Var Key: Char);
+Const
+    GOOD_VALUE = ['0' .. '9', #13, #08];
+Begin
+    If Not CharInSet(Key, GOOD_VALUE) Then
+        Key := #0;
+End;
+
+Procedure TReInputDataForm.EmployeFixedCodeLEditKeyPress(Sender: TObject; Var Key: Char);
+Const
+    GOOD_VALUE = ['0' .. '9', #13, #08];
+Begin
+    If Not CharInSet(Key, GOOD_VALUE) Then
+        Key := #0;
+End;
+
+Procedure TReInputDataForm.EmployeWorkHourLEditKeyPress(Sender: TObject; Var Key: Char);
+Const
+    GOOD_VALUE = ['0' .. '9', #13, #08];
+Begin
+    If Not CharInSet(Key, GOOD_VALUE) Then
+        Key := #0;
 End;
 
 Procedure TReInputDataForm.FormClose(Sender: TObject; Var Action: TCloseAction);

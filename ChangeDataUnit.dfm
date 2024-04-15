@@ -4,8 +4,8 @@ object ChangeDataForm: TChangeDataForm
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1085#1080#1077' '#1079#1072#1087#1080#1089#1080
-  ClientHeight = 379
-  ClientWidth = 628
+  ClientHeight = 380
+  ClientWidth = 627
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -28,12 +28,11 @@ object ChangeDataForm: TChangeDataForm
   object NavigationPanel: TPanel
     Left = 0
     Top = 0
-    Width = 628
+    Width = 627
     Height = 41
     Align = alTop
     TabOrder = 1
-    ExplicitLeft = -8
-    ExplicitWidth = 630
+    ExplicitWidth = 623
     object EmployersButton: TSpeedButton
       Left = 1
       Top = 1
@@ -45,7 +44,7 @@ object ChangeDataForm: TChangeDataForm
       ExplicitHeight = 103
     end
     object ItemsButton: TSpeedButton
-      Left = 315
+      Left = 314
       Top = 1
       Width = 312
       Height = 39
@@ -63,6 +62,7 @@ object ChangeDataForm: TChangeDataForm
     Height = 276
     BiDiMode = bdLeftToRight
     DefaultColWidth = 118
+    FixedCols = 0
     RowCount = 11
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRowSelect, goFixedRowDefAlign]
     ParentBiDiMode = False

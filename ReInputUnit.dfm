@@ -4,8 +4,8 @@ object ReInputDataForm: TReInputDataForm
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = #1048#1079#1084#1077#1085#1077#1085#1080#1077' '#1079#1072#1087#1080#1089#1080
-  ClientHeight = 197
-  ClientWidth = 576
+  ClientHeight = 194
+  ClientWidth = 572
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -131,12 +131,14 @@ object ReInputDataForm: TReInputDataForm
     EditLabel.Width = 100
     EditLabel.Height = 15
     EditLabel.Caption = 'EmployeCodeLEdit'
+    MaxLength = 9
     ParentShowHint = False
     ShowHint = True
     TabOrder = 2
     Text = ''
     TextHint = #1050#1086#1076' '#1089#1086#1090#1088#1091#1076#1085#1080#1082#1072
     Visible = False
+    OnKeyPress = EmployeCodeLEditKeyPress
   end
   object ItemGroupLEdit: TLabeledEdit
     Left = 147
@@ -147,6 +149,7 @@ object ReInputDataForm: TReInputDataForm
     EditLabel.Width = 83
     EditLabel.Height = 15
     EditLabel.Caption = 'ItemGroupLEdit'
+    MaxLength = 30
     ParentShowHint = False
     ShowHint = True
     TabOrder = 3
@@ -163,6 +166,7 @@ object ReInputDataForm: TReInputDataForm
     EditLabel.Width = 77
     EditLabel.Height = 15
     EditLabel.Caption = 'ItemMarkLEdit'
+    MaxLength = 30
     ParentShowHint = False
     ShowHint = True
     TabOrder = 4
@@ -179,6 +183,7 @@ object ReInputDataForm: TReInputDataForm
     EditLabel.Width = 90
     EditLabel.Height = 15
     EditLabel.Caption = 'EmployeFIOLEdit'
+    MaxLength = 30
     ParentShowHint = False
     ShowHint = True
     TabOrder = 5
@@ -195,6 +200,7 @@ object ReInputDataForm: TReInputDataForm
     EditLabel.Width = 95
     EditLabel.Height = 15
     EditLabel.Caption = 'EmployePostLEdit'
+    MaxLength = 30
     ParentShowHint = False
     ShowHint = True
     TabOrder = 6
@@ -211,12 +217,14 @@ object ReInputDataForm: TReInputDataForm
     EditLabel.Width = 128
     EditLabel.Height = 15
     EditLabel.Caption = 'EmployeFixedCodeLEdit'
+    MaxLength = 9
     ParentShowHint = False
     ShowHint = True
     TabOrder = 7
     Text = ''
     TextHint = #1050#1086#1076' '#1089#1086#1090#1088#1091#1076#1085#1080#1082#1072
     Visible = False
+    OnKeyPress = EmployeFixedCodeLEditKeyPress
   end
   object EmployeWorkHourLEdit: TLabeledEdit
     Left = 147
@@ -227,11 +235,13 @@ object ReInputDataForm: TReInputDataForm
     EditLabel.Width = 127
     EditLabel.Height = 15
     EditLabel.Caption = 'EmployeWorkHourLEdit'
+    MaxLength = 2
     ParentShowHint = False
     ShowHint = True
     TabOrder = 8
     Text = ''
     TextHint = #1050#1086#1083'-'#1074#1086' '#1088#1072#1073#1086#1095#1080#1093' '#1095#1072#1089#1086#1074
     Visible = False
+    OnKeyPress = EmployeWorkHourLEditKeyPress
   end
 end

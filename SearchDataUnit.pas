@@ -16,7 +16,8 @@ Uses
     Vcl.ExtCtrls,
     Vcl.StdCtrls,
     Vcl.ComCtrls,
-    Vcl.Mask, Vcl.Grids;
+    Vcl.Mask,
+    Vcl.Grids;
 
 Type
     TSearchDataForm = Class(TForm)
@@ -30,7 +31,7 @@ Type
         DataCBox: TComboBox;
         DataDateTPick: TDateTimePicker;
         SearchSpButton: TSpeedButton;
-    OutputGrid: TStringGrid;
+        OutputGrid: TStringGrid;
         Procedure AddEmployerButtonClick(Sender: TObject);
         Procedure AddItemButtonClick(Sender: TObject);
         Procedure FormClose(Sender: TObject; Var Action: TCloseAction);
@@ -39,6 +40,7 @@ Type
         Procedure SearchSpButtonClick(Sender: TObject);
         Procedure DataLEditChange(Sender: TObject);
         Procedure DataCBoxChange(Sender: TObject);
+        Procedure DataLEditKeyPress(Sender: TObject; Var Key: Char);
     Private
         { Private declarations }
     Public
@@ -148,11 +150,20 @@ Begin
     SearchSpButton.Enabled := False;
     Case GridChoose Of
         Employe:
-            DataLEdit.Visible := True;
+            Begin
+                DataLEdit.Visible := True;
+                If (SearchCriterionCBox.ItemIndex = 0) Then
+                    DataLEdit.MaxLength := 9
+                Else
+                    If (SearchCriterionCBox.ItemIndex = 3) Then
+                        DataLEdit.MaxLength := 2
+                    Else
+                        DataLEdit.MaxLength := 30;
+            End;
         Item:
             Begin
                 Case SearchCriterionCBox.ItemIndex Of
-                    Integer(TItemsIndex.Date):
+                    Integer(TItemsIndex.ItemDate):
                         Begin
                             DataDateTPick.Visible := True;
                             SearchSpButton.Enabled := True;
@@ -160,19 +171,35 @@ Begin
                     Integer(TItemsIndex.Status):
                         DataCBox.Visible := True;
                 Else
-                    DataLEdit.Visible := True;
+                    Begin
+                        DataLEdit.Visible := True;
+                        If (SearchCriterionCBox.ItemIndex = 3) Then
+                            DataLEdit.MaxLength := 9
+                        Else
+                            DataLEdit.MaxLength := 30;
+                    End;
                 End;
             End;
     End;
 End;
 
 Procedure TSearchDataForm.SearchSpButtonClick(Sender: TObject);
+Var
+    ItemsBufHead: TItemNode;
+    EmployersBufHead: TEmployeNode;
 Begin
     Case GridChoose Of
         Employe:
-            SearchAnEmployer(SearchCriterionCBox.ItemIndex, DataLEdit.Text, OutputGrid);
+            Begin
+                EmployersBufHead := SearchEmployers(SearchCriterionCBox.ItemIndex, DataLEdit.Text);
+                InputEmployersInGreed(OutputGrid, EmployersBufHead);
+                OutputGrid.RowCount := OutputGrid.RowCount;
+            End;
         Item:
-            SearchItem(SearchCriterionCBox.ItemIndex, DataLEdit.Text, DataDateTPick.Date, DataCBox.ItemIndex = 0, OutputGrid);
+            Begin
+                ItemsBufHead := SearchItems(SearchCriterionCBox.ItemIndex, DataLEdit.Text, DataDateTPick.Date, DataCBox.ItemIndex = 0);
+                InputItemsInGreed(OutputGrid, ItemsBufHead);
+            End;
     End;
     OutputGrid.Visible := True;
 End;
@@ -180,6 +207,14 @@ End;
 Procedure TSearchDataForm.DataLEditChange(Sender: TObject);
 Begin
     SearchSpButton.Enabled := Trim(DataLEdit.Text) <> ''
+End;
+
+Procedure TSearchDataForm.DataLEditKeyPress(Sender: TObject; Var Key: Char);
+Const
+    GOOD_VALUE = ['0' .. '9', #13, #08];
+Begin
+    If Not CharInSet(Key, GOOD_VALUE) And (DataLEdit.MaxLength <> 30) Then
+        Key := #0;
 End;
 
 End.

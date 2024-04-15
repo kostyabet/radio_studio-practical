@@ -4,8 +4,8 @@ object SearchDataForm: TSearchDataForm
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = #1055#1086#1080#1089#1082' '#1087#1086' '#1079#1072#1087#1080#1089#1103#1084
-  ClientHeight = 408
-  ClientWidth = 636
+  ClientHeight = 403
+  ClientWidth = 634
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -45,11 +45,11 @@ object SearchDataForm: TSearchDataForm
   object SwitchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 636
+    Width = 634
     Height = 41
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 333
+    ExplicitWidth = 630
     object AddEmployerButton: TSpeedButton
       Left = 1
       Top = 1
@@ -63,7 +63,7 @@ object SearchDataForm: TSearchDataForm
       OnClick = AddEmployerButtonClick
     end
     object AddItemButton: TSpeedButton
-      Left = 323
+      Left = 321
       Top = 1
       Width = 312
       Height = 39
@@ -112,6 +112,7 @@ object SearchDataForm: TSearchDataForm
     TextHint = #1044#1072#1085#1085#1099#1077
     Visible = False
     OnChange = DataLEditChange
+    OnKeyPress = DataLEditKeyPress
   end
   object DataCBox: TComboBox
     Left = 381
@@ -150,6 +151,7 @@ object SearchDataForm: TSearchDataForm
     Height = 276
     BiDiMode = bdLeftToRight
     DefaultColWidth = 118
+    FixedCols = 0
     RowCount = 11
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRowSelect, goFixedRowDefAlign]
     ParentBiDiMode = False

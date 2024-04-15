@@ -4,8 +4,8 @@ object DeleteDataForm: TDeleteDataForm
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = #1059#1076#1072#1083#1077#1085#1080#1077' '#1079#1072#1087#1080#1089#1080
-  ClientHeight = 383
-  ClientWidth = 630
+  ClientHeight = 380
+  ClientWidth = 628
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,11 +19,11 @@ object DeleteDataForm: TDeleteDataForm
   object NavigationPanel: TPanel
     Left = 0
     Top = 0
-    Width = 630
+    Width = 628
     Height = 41
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 626
+    ExplicitWidth = 624
     object EmployersButton: TSpeedButton
       Left = 1
       Top = 1
@@ -35,7 +35,7 @@ object DeleteDataForm: TDeleteDataForm
       ExplicitHeight = 103
     end
     object ItemsButton: TSpeedButton
-      Left = 317
+      Left = 315
       Top = 1
       Width = 312
       Height = 39
@@ -53,6 +53,7 @@ object DeleteDataForm: TDeleteDataForm
     Height = 276
     BiDiMode = bdLeftToRight
     DefaultColWidth = 118
+    FixedCols = 0
     RowCount = 11
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRowSelect, goFixedRowDefAlign]
     ParentBiDiMode = False
